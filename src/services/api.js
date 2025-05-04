@@ -1,24 +1,20 @@
+// client/src/services/api.js
 import axios from 'axios';
 
-// --- API BASE URL ---
-// Option 1: Use proxy (if defined in client/package.json)
-// Option 2: Use full URL fallback (if proxy isn't working)
-const API_URL = '/api/news';
-// const API_URL = 'http://localhost:5001/api/news'; // Uncomment this if proxy doesn't work
+// ✅ Use full URL since you're running on port 5001
+const API_URL = 'http://localhost:5001/api/news';
 
-// --- AUTH HEADER CONFIG ---
+// ✅ Load secret from environment variable (.env file in client folder)
 const getAuthConfig = () => {
-  const secretKey = process.env.REACT_APP_ADMIN_SECRET;
-
   return {
     headers: {
-      // Do NOT manually set 'Content-Type' for FormData — Axios handles it
-      'x-admin-secret': secretKey,
-    },
+      'Content-Type': 'multipart/form-data',
+      'x-admin-secret': process.env.REACT_APP_ADMIN_SECRET // Secret should be defined in .env
+    }
   };
 };
 
-// --- ADD NEWS ITEM ---
+// Add news item
 export const addNewsItem = async (formData) => {
   try {
     const res = await axios.post(API_URL, formData, getAuthConfig());
@@ -29,7 +25,7 @@ export const addNewsItem = async (formData) => {
   }
 };
 
-// --- UPDATE NEWS ITEM ---
+// Update news item
 export const updateNewsItem = async (id, formData) => {
   if (!id) throw new Error("Update requires a valid news item ID.");
   try {
@@ -41,11 +37,11 @@ export const updateNewsItem = async (id, formData) => {
   }
 };
 
-// --- DELETE NEWS ITEM ---
+// Delete news item
 export const deleteNewsItem = async (id) => {
   if (!id) throw new Error("Delete requires a valid news item ID.");
   try {
-    const res = await axios.delete(`${API_URL}/${id}`, getAuthConfig());
+    const res = await axios.delete(`${API_URL}/${id}`, { headers: getAuthConfig().headers });
     return res.data;
   } catch (error) {
     console.error('Error deleting news:', error.response?.data || error.message);
@@ -53,7 +49,7 @@ export const deleteNewsItem = async (id) => {
   }
 };
 
-// --- GET ALL NEWS ---
+// Get all news (no auth needed)
 export const getAllNews = async () => {
   try {
     const res = await axios.get(API_URL);
