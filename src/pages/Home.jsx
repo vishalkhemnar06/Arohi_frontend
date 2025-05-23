@@ -224,9 +224,12 @@ const Home = () => {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <button className="bg-white text-amber-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg">
-              आता कॉल करा: +91 9561562080
-            </button> 
+           <a
+  href="tel:+919561562080"
+  className="bg-white text-amber-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg inline-block text-center"
+>
+  आता कॉल करा: +91 9561562080
+</a>
             <a
   href="mailto:arohicomputers1@gmail.com?subject=Feedback&body=नमस्कार, मला तुमच्याशी संपर्क साधायचा आहे."
   className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-amber-700 font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105"
